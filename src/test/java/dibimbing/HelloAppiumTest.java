@@ -95,6 +95,14 @@ public class HelloAppiumTest {
     }
   }
 
+  @Test
+  public void testSwipeUsingUIAutomator() {
+    driver.findElement(AppiumBy.androidUIAutomator(
+       "new UiScrollable(new UiSelector().scrollable(true))" +
+           ".scrollIntoView(new UiSelector().text(\"Sauce Labs Backpack (violet)\"))"
+    ));
+  }
+
   private void swipeUp(int numberOfSwipes) {
     for (int i = 0; i < numberOfSwipes; i++) {
       System.out.println("Swiping up... --> " + (i + 1));
