@@ -18,6 +18,9 @@ public class LoginPage extends BasePage {
   @AndroidFindBy(accessibility = "Tap to login with given credentials")
   private WebElement buttonLogin;
 
+  @AndroidFindBy(id = "com.saucelabs.mydemoapp.android:id/nameErrorTV")
+  private WebElement errorUsername;
+
   // bod@example.com
   public void inputUsername(String username) {
     fieldUsername.sendKeys(username);
@@ -36,5 +39,9 @@ public class LoginPage extends BasePage {
     inputUsername(username);
     inputPassword(password);
     clickLoginButton();
+  }
+
+  public String getTextErrorUsername() {
+    return errorUsername.getText(); // -> Username is required
   }
 }

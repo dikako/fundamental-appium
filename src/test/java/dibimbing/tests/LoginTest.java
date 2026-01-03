@@ -30,4 +30,26 @@ public class LoginTest extends BaseTest {
 
     Assert.assertTrue(productPage.isTitlePresent());
   }
+
+  @Test
+  public void failedLoginWithBlankInputUsernameAndPassword() {
+    // Use for: go to login page entrypoint
+    GlobalPage globalPage = new GlobalPage(DriverManager.getDriver());
+
+    // Use for: input username, password and click login button
+    LoginPage loginPage = new LoginPage(DriverManager.getDriver());
+
+    globalPage.clickViewMenu();
+    globalPage.clickLoginMenuItem();
+
+    loginPage.inputUsername("");
+    loginPage.inputPassword("");
+    loginPage.clickLoginButton();
+
+    // Assert error message
+    Assert.assertEquals(
+        loginPage.getTextErrorUsername(),
+        "Username is required"
+    );
+  }
 }
