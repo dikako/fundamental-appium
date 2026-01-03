@@ -3,6 +3,7 @@ package dibimbing;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
@@ -82,6 +83,47 @@ public class HelloAppiumTest {
       throw new RuntimeException(e);
     }
   }
+
+  @Test
+  public void testSwipeUsingPointerInput() {
+    swipeUp(5);
+
+    try {
+      Thread.sleep(5000);
+    } catch (InterruptedException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private void swipeUp(int numberOfSwipes) {
+    for (int i = 0; i < numberOfSwipes; i++) {
+      System.out.println("Swiping up... --> " + (i + 1));
+      swipeUp();
+    }
+  }
+
+  private void swipeUp() {
+    Dimension size = driver.manage().window().getSize();
+
+    // Starting point swiping
+    int startX = size.getWidth() / 2; // -> 160
+    int startY = size.getHeight() / 2; // -> 320
+
+    // Target point swiping
+    int endY = (int) (size.getHeight() * 0.2);
+
+    PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+    Sequence swipe = new Sequence(finger, 1);
+
+    swipe.addAction(finger.createPointerMove(Duration.ofMillis(0),
+        PointerInput.Origin.viewport(), startX, startY));
+    swipe.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+    swipe.addAction(finger.createPointerMove(Duration.ofMillis(800),
+        PointerInput.Origin.viewport(), startX, endY));
+    swipe.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+    driver.perform(Arrays.asList(swipe));
+  }
+
 
   @AfterClass
   public void tearDownAppium() {
